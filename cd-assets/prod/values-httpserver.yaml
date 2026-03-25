@@ -1,0 +1,66 @@
+nameOverride: "grafana-mcp"
+fullnameOverride: "grafana-mcp"
+
+namespace: monitoring
+
+replicaCount: 2
+
+image:
+  # repository: europe-docker.pkg.dev/sports-dev-experiments/eu/grafana-mcp
+  repository: mcp/grafana
+  tag: "latest" # override during build with commit SHA
+  pullPolicy: IfNotPresent
+
+# DO NOT set CPU limits, it will do more harm than help
+resources:
+  limits:
+    memory: 128Mi
+  requests:
+    cpu: 10m
+    memory: 32Mi
+
+autoscaling:
+  enabled: true
+  targetKind: Deployment
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUAverageValue: 40m
+  targetMemoryAverageValue: 100Mi
+
+service:
+  type: ClusterIP
+  annotations:
+    cloud.google.com/backend-config: '{"default": "public-cloud-armor-backendconfig-monitoring"}'
+    cloud.google.com/neg: '{"ingress": true}'
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+
+container:
+  ports:
+    - name: http
+      containerPort: 3000
+      protocol: TCP
+
+probes:
+  liveness:
+    enabled: true
+    path: /health
+    port: http
+    initialDelaySeconds: 5
+    periodSeconds: 4
+    timeoutSeconds: 3
+  readiness:
+    enabled: true
+    path: /health
+    port: http
+    initialDelaySeconds: 5
+    periodSeconds: 4
+    timeoutSeconds: 3
+
+antiAffinity: "soft"
+
+serviceAccount:
+  create: true

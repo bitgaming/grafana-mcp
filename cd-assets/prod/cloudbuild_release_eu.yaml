@@ -1,0 +1,36 @@
+# release only, deploy with helm 3 + helm gcs plugin
+steps:
+  - id: "verify-image"
+    name: "gcr.io/google.com/cloudsdktool/google-cloud-cli:467.0.0"
+    entrypoint: sh
+    args:
+      - "-c"
+      - >
+        gcloud container images list-tags
+        --format="value(tags)" --filter="${_COMMIT_ID}"
+        europe-docker.pkg.dev/sports-dev-experiments/eu/${_REPO_NAME} |
+        grep -q . || { echo "Error: No output found."; exit 1; }
+
+  - id: "deploy-eu"
+    name: "europe-docker.pkg.dev/sports-dev-experiments/eu/sports-devops-build"
+    entrypoint: sh
+    args:
+      - "-c"
+      - |
+        helm template --name-template=${_APP_NAME} \
+        --set image.tag=${_COMMIT_ID} \
+        --values=./cd-assets/prod/values-envs.yaml \
+        --values=./cd-assets/prod/values-httpserver.yaml \
+        --repo=gs://${_GCS_BUCKET_NAME}/artifacts/kubershmuber-charts deployment-chart \
+        | gke-deploy run -f - -a ${_APP_NAME} -o output-prod-eu -c ${_CLUSTER_NAME} --project ${_CLUSTER_PROJECT} -l ${_CLUSTER_REGION} --timeout=15m
+
+substitutions:
+  _APP_NAME: grafana-mcp
+  _CLUSTER_NAME: kubershmuber-prod-eu
+  _CLUSTER_PROJECT: kubershmuber-prod-sports
+  _CLUSTER_REGION: europe-west1
+  _COMMIT_ID: latest
+  _GCS_BUCKET_NAME: kubershmuber-dev-private-sports-eu
+  _REPO_NAME: grafana-mcp
+
+logsBucket: "gs://kubershmuber-dev-prod-sports-devops-logs"
