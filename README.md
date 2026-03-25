@@ -23,5 +23,5 @@ europe-docker.pkg.dev/sports-dev-experiments/eu/mcp/grafana
 | Variable | Value |
 |---|---|
 | `GRAFANA_URL` | `http://grafana.monitoring.svc.cluster.local` |
-| `ENABLED_TOOLS` | `query_logs` |
+| `--enabled-tools` | `loki,datasource,sift` |
 | `GRAFANA_SERVICE_ACCOUNT_TOKEN` | KMS-encrypted, injected at deploy time |

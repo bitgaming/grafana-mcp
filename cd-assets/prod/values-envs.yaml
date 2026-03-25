@@ -1,3 +1,2 @@
 envVars:
   GRAFANA_URL: http://grafana.monitoring.svc.cluster.local
-  ENABLED_TOOLS: query_logs
