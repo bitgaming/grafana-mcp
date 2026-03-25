@@ -29,6 +29,6 @@ availableSecrets:
   inline:
     - kmsKeyName: projects/kubershmuber-prod-credentials/locations/global/keyRings/global-keyring/cryptoKeys/cloud-build-key
       envMap:
-        GRAFANA_SERVICE_ACCOUNT_TOKEN: "CiQAbRA+mTcmo778LdcL4y4VuIdrLeQ2x+PsgZQix0ORhGA2JyYSVwA64weCwKwefpK9pVF+q33gGh4u8REiBwxvUiLqn8j+CRwJFeNtoNlNQOCuc1sgPdijO3jfDQ1aC4Z47Pg+RfaXNSMfk59PrcdgtWYp5z78FUdX9ipaHA==" # run `make encrypt-prod` to generate
+        GRAFANA_SERVICE_ACCOUNT_TOKEN: "CiQAbRA+mcL8OEnz/ytiYO1zLRwZ/XXYhpIyMt910PdW/5UG/lASVwA64weC/rw7USpVf/2Af7NxYG7OcyuXmux29DIaW/YmO8e0fZfdLHL0KxeP3gz9kwsZHKXZ4vtUx0SENpc0uvfDnCfhD4BVU08OFnQp29oZIGNNG2EMzg==" # run `make encrypt-prod` to generate
 
 logsBucket: "gs://kubershmuber-dev-prod-sports-devops-logs"
