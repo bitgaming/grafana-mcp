@@ -3,11 +3,14 @@ steps:
   - id: "deploy-eu"
     name: "europe-docker.pkg.dev/sports-dev-experiments/eu/sports-devops-build"
     entrypoint: sh
+    secretEnv:
+      - GRAFANA_SERVICE_ACCOUNT_TOKEN
     args:
       - "-c"
       - |
         helm template --name-template=${_APP_NAME} --namespace monitoring \
         --set image.tag=${_COMMIT_ID} \
+        --set envVars.GRAFANA_SERVICE_ACCOUNT_TOKEN=$$GRAFANA_SERVICE_ACCOUNT_TOKEN \
         --values=./cd-assets/prod/values-envs.yaml \
         --values=./cd-assets/prod/values-httpserver.yaml \
         --repo=gs://${_GCS_BUCKET_NAME}/artifacts/kubershmuber-charts deployment-chart \
@@ -21,5 +24,11 @@ substitutions:
   _COMMIT_ID: latest
   _GCS_BUCKET_NAME: kubershmuber-dev-private-sports-eu
   _REPO_NAME: grafana-mcp
+
+availableSecrets:
+  inline:
+    - kmsKeyName: projects/kubershmuber-prod-credentials/locations/global/keyRings/global-keyring/cryptoKeys/cloud-build-key
+      envMap:
+        GRAFANA_SERVICE_ACCOUNT_TOKEN: "CiQAbRA+mTcmo778LdcL4y4VuIdrLeQ2x+PsgZQix0ORhGA2JyYSVwA64weCwKwefpK9pVF+q33gGh4u8REiBwxvUiLqn8j+CRwJFeNtoNlNQOCuc1sgPdijO3jfDQ1aC4Z47Pg+RfaXNSMfk59PrcdgtWYp5z78FUdX9ipaHA==" # run `make encrypt-prod` to generate
 
 logsBucket: "gs://kubershmuber-dev-prod-sports-devops-logs"
