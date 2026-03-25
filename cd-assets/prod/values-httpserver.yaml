@@ -6,8 +6,7 @@ namespace: monitoring
 replicaCount: 2
 
 image:
-  # repository: europe-docker.pkg.dev/sports-dev-experiments/eu/grafana-mcp
-  repository: mcp/grafana
+  repository: europe-docker.pkg.dev/sports-dev-experiments/eu/mcp/grafana
   tag: "latest" # override during build with commit SHA
   pullPolicy: IfNotPresent
 
