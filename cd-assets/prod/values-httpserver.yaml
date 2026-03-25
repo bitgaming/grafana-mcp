@@ -38,10 +38,6 @@ service:
       name: http
 
 container:
-  args:
-    - --transport=sse
-    - --address=0.0.0.0:8000
-    - --enabled-tools=loki,datasource,sift
   ports:
     - name: http
       containerPort: 8000
