@@ -17,7 +17,7 @@ steps:
     args:
       - "-c"
       - |
-        helm template --name-template=${_APP_NAME} \
+        helm template --name-template=${_APP_NAME} --namespace monitoring \
         --set image.tag=${_COMMIT_ID} \
         --values=./cd-assets/prod/values-envs.yaml \
         --values=./cd-assets/prod/values-httpserver.yaml \
