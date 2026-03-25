@@ -8,7 +8,7 @@ replicaCount: 2
 image:
   repository: europe-docker.pkg.dev/sports-dev-experiments/eu/mcp/grafana
   tag: "latest" # override during build with commit SHA
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 # DO NOT set CPU limits, it will do more harm than help
 resources:
