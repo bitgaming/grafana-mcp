@@ -43,20 +43,18 @@ container:
       containerPort: 8000
       protocol: TCP
 
-probes:
+probesV2:
   liveness:
-    enabled: true
-    path: /health
-    port: http
+    tcpSocket:
+      port: http
     initialDelaySeconds: 5
-    periodSeconds: 4
+    periodSeconds: 10
     timeoutSeconds: 3
   readiness:
-    enabled: true
-    path: /health
-    port: http
+    tcpSocket:
+      port: http
     initialDelaySeconds: 5
-    periodSeconds: 4
+    periodSeconds: 10
     timeoutSeconds: 3
 
 antiAffinity: "soft"
