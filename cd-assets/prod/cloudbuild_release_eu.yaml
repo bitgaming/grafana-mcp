@@ -22,7 +22,7 @@ steps:
         --values=./cd-assets/prod/values-envs.yaml \
         --values=./cd-assets/prod/values-httpserver.yaml \
         --repo=gs://${_GCS_BUCKET_NAME}/artifacts/kubershmuber-charts deployment-chart \
-        | gke-deploy run -f - -a ${_APP_NAME} -o output-prod-eu -c ${_CLUSTER_NAME} --project ${_CLUSTER_PROJECT} -l ${_CLUSTER_REGION} --timeout=15m
+        | gke-deploy run -f - -a ${_APP_NAME} -n monitoring -o output-prod-eu -c ${_CLUSTER_NAME} --project ${_CLUSTER_PROJECT} -l ${_CLUSTER_REGION} --timeout=15m
 
 substitutions:
   _APP_NAME: grafana-mcp
