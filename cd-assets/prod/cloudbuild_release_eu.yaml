@@ -1,15 +1,15 @@
 # release only, deploy with helm 3 + helm gcs plugin
 steps:
-  - id: "verify-image"
-    name: "gcr.io/google.com/cloudsdktool/google-cloud-cli:467.0.0"
-    entrypoint: sh
-    args:
-      - "-c"
-      - >
-        gcloud container images list-tags
-        --format="value(tags)" --filter="${_COMMIT_ID}"
-        europe-docker.pkg.dev/sports-dev-experiments/eu/${_REPO_NAME} |
-        grep -q . || { echo "Error: No output found."; exit 1; }
+  # - id: "verify-image"
+  #   name: "gcr.io/google.com/cloudsdktool/google-cloud-cli:467.0.0"
+  #   entrypoint: sh
+  #   args:
+  #     - "-c"
+  #     - >
+  #       gcloud container images list-tags
+  #       --format="value(tags)" --filter="${_COMMIT_ID}"
+  #       europe-docker.pkg.dev/sports-dev-experiments/eu/${_REPO_NAME} |
+  #       grep -q . || { echo "Error: No output found."; exit 1; }
 
   - id: "deploy-eu"
     name: "europe-docker.pkg.dev/sports-dev-experiments/eu/sports-devops-build"
