@@ -46,16 +46,10 @@ https://grafana-mcp.prod-eu.kubershmuber.com/sse
 
 > **You must be on an allowed IP to connect** — see [Architecture](#architecture) above.
 
-Example Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+Add it to Claude Code with:
 
-```json
-{
-  "mcpServers": {
-    "grafana": {
-      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse"
-    }
-  }
-}
+```bash
+claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse
 ```
 
 ## Deployment
