@@ -14,7 +14,7 @@ The server is configured to expose the following tool categories via `ENABLED_TO
 
 ```mermaid
 graph LR
-    User["MCP User\n(Claude Desktop / Cursor / etc.)"]
+    User["MCP User\n(Claude Code / Cursor / OpenCode)"]
 
     subgraph GKE ["GKE — kubershmuber-prod-eu (monitoring namespace)"]
         MCP["grafana-mcp\n(SSE server :8000)"]
@@ -35,6 +35,15 @@ graph LR
 - Prod cluster CloudNAT IPs (for internal service-to-service calls)
 
 All other traffic is blocked with a `403` at the Cloud Armor layer, before reaching GKE.
+
+## Grafana token (per user)
+
+Each user authenticates with their own Grafana service account token, passed via the `X-Grafana-API-Key` request header. The server forwards it to Grafana on every request — no shared credentials.
+
+1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana
+2. Click **Add service account**, set a name and role **Viewer**, then click **Create**
+3. On the service account page, click **Add service account token**
+4. Set an expiry if desired, click **Generate token**, and copy it immediately
 
 ## Connecting
 
@@ -83,17 +92,6 @@ claude mcp add --transport sse --header "X-Grafana-API-Key: <your-token>" grafan
   }
 }
 ```
-
-## Grafana token (per user)
-
-Each user authenticates with their own Grafana service account token, passed via the `X-Grafana-API-Key` request header. The server reads this header on every request and forwards it to Grafana, so access is controlled per user — no shared credentials.
-
-To generate your token:
-
-1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana
-2. Click **Add service account**, set a name and role **Viewer**, then click **Create**
-3. On the service account page, click **Add service account token**
-4. Set an expiry if desired, click **Generate token**, and copy it immediately
 
 ## Deployment
 
