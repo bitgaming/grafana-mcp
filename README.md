@@ -46,10 +46,24 @@ https://grafana-mcp.prod-eu.kubershmuber.com/sse
 
 > **You must be on an allowed IP to connect** — see [Architecture](#architecture) above.
 
-Add it to Claude Code with:
+**Claude Code:**
 
 ```bash
 claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse
+```
+
+**OpenCode** (`opencode.json` or `~/.config/opencode/opencode.json`):
+
+```json
+{
+  "mcp": {
+    "grafana": {
+      "type": "remote",
+      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse",
+      "enabled": true
+    }
+  }
+}
 ```
 
 ## Deployment
