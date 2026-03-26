@@ -40,15 +40,15 @@ All other traffic is blocked with a `403` at the Cloud Armor layer, before reach
 
 Authentication uses a shared [service account](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts/39) (`grafana-mcp`, Viewer role). Each team member gets their **own individual token** under this service account — tokens are not shared between users, so each person's access can be tracked and revoked independently.
 
-**To request a token**, ask in the **#devops** Slack channel, or reach out directly to anyone who has token manager access:
+**To request a token**, ask in the **#devops** Slack channel, or reach out directly to any of the following — they have edit access to the service account and can create a token for you:
 
-- agrimprasad
-- andrebartke
-- chris.w@chaostheory.hk
-- gerhardpretorius
-- marvincai
-- minyan.gu@bitgamelabs.com
-- tom.l@chaostheory.hk
+- Agrim Prasad
+- Andre Bartke
+- Chris Wu
+- Gerhard Pretorius
+- Marvin Cai
+- Minyan Gu
+- Tom Li
 
 **If you have token manager access** and need to create a token for someone:
 
