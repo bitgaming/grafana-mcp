@@ -10,6 +10,31 @@ The server is configured to expose the following tool categories via `ENABLED_TO
 | `datasource` | `list_datasources`, `get_datasource` |
 | `sift` | `list_sift_investigations`, `get_sift_investigation`, `get_sift_analysis`, `find_error_pattern_logs`, `find_slow_requests` |
 
+## Connecting
+
+The MCP server is available via SSE at:
+
+```
+https://grafana-mcp.prod-eu.kubershmuber.com/sse
+```
+
+> **Access is IP-restricted via Cloud Armor.** You must be connecting from one of the following to use this MCP:
+> - HK office (`223.197.203.82`)
+> - NordLayer Austria gateway (`149.40.52.138`) — connect via NordLayer VPN if remote
+> - Prod cluster CloudNAT IPs (internal services only)
+
+Example Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "grafana": {
+      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse"
+    }
+  }
+}
+```
+
 ## Deployment
 
 Deployed to prod EU via Cloud Build using the `deployment-chart` helm chart:
