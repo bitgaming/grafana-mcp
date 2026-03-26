@@ -21,22 +21,9 @@ graph LR
         Grafana["Grafana\n(grafana.monitoring.svc.cluster.local)"]
     end
 
-    User -->|"HTTPS SSE\ngrafana-mcp.prod-eu.kubershmuber.com/sse"| MCP
+    User -->|"HTTPS SSE + X-Grafana-API-Key\ngrafana-mcp.prod-eu.kubershmuber.com/sse"| MCP
     MCP -->|"internal cluster DNS"| Grafana
 ```
-
-## Grafana token (per user)
-
-Authentication uses a [MCP Client Service Account](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts/39) (Viewer role). Each team member gets their **own individual token** under this service account — tokens are not shared between users, so each person's access can be tracked and revoked independently.
-
-**To request a token**, ask in the **#devops** Slack channel.
-
-**If you have token manager access** and need to create a token for someone:
-
-1. Go to the [grafana-mcp service account](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts/39)
-2. Click **Add service account token**
-3. Set the token name to the person's name/username for tracking
-4. Set an expiry if desired, click **Generate token**, and share it securely
 
 ## Grafana token (per user)
 
@@ -54,8 +41,6 @@ The MCP server is available via SSE at:
 ```
 https://grafana-mcp.prod-eu.kubershmuber.com/sse
 ```
-
-> **You must be on an allowed IP to connect** — see [Architecture](#architecture) above.
 
 **Claude Code:**
 
