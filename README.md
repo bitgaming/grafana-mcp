@@ -21,20 +21,9 @@ graph LR
         Grafana["Grafana\n(grafana.monitoring.svc.cluster.local)"]
     end
 
-    CA["Cloud Armor\nIP Restrictions"]
-
-    User -->|"HTTPS SSE\ngrafana-mcp.prod-eu.kubershmuber.com/sse"| CA
-    CA -->|"allowed IPs only"| MCP
-    CA -->|"403 denied"| User
+    User -->|"HTTPS SSE\ngrafana-mcp.prod-eu.kubershmuber.com/sse"| MCP
     MCP -->|"internal cluster DNS"| Grafana
 ```
-
-**Allowed source IPs (Cloud Armor):**
-- HK office — `223.197.203.82`
-- NordLayer Austria gateway — `149.40.52.138` (use NordLayer VPN if remote)
-- Prod cluster CloudNAT IPs (for internal service-to-service calls)
-
-All other traffic is blocked with a `403` at the Cloud Armor layer, before reaching GKE.
 
 ## Grafana token (per user)
 
@@ -56,8 +45,6 @@ The MCP server is available via SSE at:
 ```
 https://grafana-mcp.prod-eu.kubershmuber.com/sse
 ```
-
-> **You must be on an allowed IP to connect** — see [Architecture](#architecture) above.
 
 Add it to Claude Code with:
 
