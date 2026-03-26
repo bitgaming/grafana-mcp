@@ -27,12 +27,13 @@ graph LR
 
 ## Grafana token (per user)
 
-Each user authenticates with their own Grafana service account token, passed via the `X-Grafana-API-Key` request header. The server forwards it to Grafana on every request — no shared credentials.
+Each user authenticates with their own token, passed via the `X-Grafana-API-Key` request header. The server forwards it to Grafana on every request — no shared tokens.
 
-1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana
-2. Click **Add service account**, set a name and role **Viewer**, then click **Create**
-3. On the service account page, click **Add service account token**
-4. Set an expiry if desired, click **Generate token**, and copy it immediately
+All tokens live under the shared **MCP Client Service Account** — one token per user, all under the same service account.
+
+1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana and open the **MCP Client Service Account**
+2. Click **Add service account token**
+3. Set a name (e.g. your name), set an expiry if desired, click **Generate token**, and copy it immediately
 
 ## Connecting
 
