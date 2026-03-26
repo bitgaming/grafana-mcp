@@ -14,27 +14,25 @@ The server is configured to expose the following tool categories via `ENABLED_TO
 
 ```mermaid
 graph LR
-    User["MCP User\n(Claude Desktop / Cursor / etc.)"]
+    User["MCP User\n(Claude Code / Cursor / OpenCode)"]
 
     subgraph GKE ["GKE — kubershmuber-prod-eu (monitoring namespace)"]
         MCP["grafana-mcp\n(SSE server :8000)"]
         Grafana["Grafana\n(grafana.monitoring.svc.cluster.local)"]
     end
 
-    CA["Cloud Armor\nIP Restrictions"]
-
-    User -->|"HTTPS SSE\ngrafana-mcp.prod-eu.kubershmuber.com/sse"| CA
-    CA -->|"allowed IPs only"| MCP
-    CA -->|"403 denied"| User
+    User -->|"HTTPS SSE + X-Grafana-API-Key\ngrafana-mcp.prod-eu.kubershmuber.com/sse"| MCP
     MCP -->|"internal cluster DNS"| Grafana
 ```
 
-**Allowed source IPs (Cloud Armor):**
-- HK office — `223.197.203.82`
-- NordLayer Austria gateway — `149.40.52.138` (use NordLayer VPN if remote)
-- Prod cluster CloudNAT IPs (for internal service-to-service calls)
+## Grafana token (per user)
 
-All other traffic is blocked with a `403` at the Cloud Armor layer, before reaching GKE.
+Each user authenticates with their own Grafana service account token, passed via the `X-Grafana-API-Key` request header. The server forwards it to Grafana on every request — no shared credentials.
+
+1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana
+2. Click **Add service account**, set a name and role **Viewer**, then click **Create**
+3. On the service account page, click **Add service account token**
+4. Set an expiry if desired, click **Generate token**, and copy it immediately
 
 ## Connecting
 
@@ -44,12 +42,42 @@ The MCP server is available via SSE at:
 https://grafana-mcp.prod-eu.kubershmuber.com/sse
 ```
 
-> **You must be on an allowed IP to connect** — see [Architecture](#architecture) above.
-
-Add it to Claude Code with:
+**Claude Code:**
 
 ```bash
-claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse
+claude mcp add grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse --transport sse --header "X-Grafana-API-Key: <your-token>"
+```
+
+**OpenCode** (`opencode.json` or `~/.config/opencode/opencode.json`):
+
+```json
+{
+  "mcp": {
+    "grafana": {
+      "type": "remote",
+      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse",
+      "headers": {
+        "X-Grafana-API-Key": "<your-token>"
+      },
+      "enabled": true
+    }
+  }
+}
+```
+
+**Cursor** (`~/.cursor/mcp.json` or `.cursor/mcp.json` in project root):
+
+```json
+{
+  "mcpServers": {
+    "grafana": {
+      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse",
+      "headers": {
+        "X-Grafana-API-Key": "<your-token>"
+      }
+    }
+  }
+}
 ```
 
 ## Deployment
@@ -72,4 +100,3 @@ europe-docker.pkg.dev/sports-dev-experiments/eu/mcp/grafana
 |---|---|
 | `GRAFANA_URL` | `http://grafana.monitoring.svc.cluster.local` |
 | `ENABLED_TOOLS` | `loki,datasource,sift` |
-| `GRAFANA_SERVICE_ACCOUNT_TOKEN` | KMS-encrypted, injected at deploy time |
