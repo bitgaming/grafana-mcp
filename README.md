@@ -10,6 +10,32 @@ The server is configured to expose the following tool categories via `ENABLED_TO
 | `datasource` | `list_datasources`, `get_datasource` |
 | `sift` | `list_sift_investigations`, `get_sift_investigation`, `get_sift_analysis`, `find_error_pattern_logs`, `find_slow_requests` |
 
+## Architecture
+
+```mermaid
+graph LR
+    User["MCP User\n(Claude Desktop / Cursor / etc.)"]
+
+    subgraph GKE ["GKE — kubershmuber-prod-eu (monitoring namespace)"]
+        MCP["grafana-mcp\n(SSE server :8000)"]
+        Grafana["Grafana\n(grafana.monitoring.svc.cluster.local)"]
+    end
+
+    CA["Cloud Armor\nIP Restrictions"]
+
+    User -->|"HTTPS SSE\ngrafana-mcp.prod-eu.kubershmuber.com/sse"| CA
+    CA -->|"allowed IPs only"| MCP
+    CA -->|"403 denied"| User
+    MCP -->|"internal cluster DNS"| Grafana
+```
+
+**Allowed source IPs (Cloud Armor):**
+- HK office — `223.197.203.82`
+- NordLayer Austria gateway — `149.40.52.138` (use NordLayer VPN if remote)
+- Prod cluster CloudNAT IPs (for internal service-to-service calls)
+
+All other traffic is blocked with a `403` at the Cloud Armor layer, before reaching GKE.
+
 ## Connecting
 
 The MCP server is available via SSE at:
@@ -18,10 +44,7 @@ The MCP server is available via SSE at:
 https://grafana-mcp.prod-eu.kubershmuber.com/sse
 ```
 
-> **Access is IP-restricted via Cloud Armor.** You must be connecting from one of the following to use this MCP:
-> - HK office (`223.197.203.82`)
-> - NordLayer Austria gateway (`149.40.52.138`) — connect via NordLayer VPN if remote
-> - Prod cluster CloudNAT IPs (internal services only)
+> **You must be on an allowed IP to connect** — see [Architecture](#architecture) above.
 
 Example Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 
