@@ -38,7 +38,7 @@ All other traffic is blocked with a `403` at the Cloud Armor layer, before reach
 
 ## Grafana token (per user)
 
-Authentication uses a single shared [service account](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts/39) (`grafana-mcp`), with one named token created per team member for audit tracking.
+Authentication uses a shared [service account](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts/39) (`grafana-mcp`, Viewer role). Each team member gets their **own individual token** under this service account — tokens are not shared between users, so each person's access can be tracked and revoked independently.
 
 **To request a token**, ask in the **#devops** Slack channel, or reach out directly to anyone who has token manager access:
 
