@@ -66,6 +66,18 @@ claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.
 }
 ```
 
+**Cursor** (`~/.cursor/mcp.json` or `.cursor/mcp.json` in project root):
+
+```json
+{
+  "mcpServers": {
+    "grafana": {
+      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse"
+    }
+  }
+}
+```
+
 ## Deployment
 
 Deployed to prod EU via Cloud Build using the `deployment-chart` helm chart:
