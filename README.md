@@ -58,7 +58,7 @@ https://grafana-mcp.prod-eu.kubershmuber.com/sse
 **Claude Code:**
 
 ```bash
-claude mcp add --transport sse --header "X-Grafana-API-Key: <your-token>" grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse
+claude mcp add grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse --transport sse --header "X-Grafana-API-Key: <your-token>"
 ```
 
 **OpenCode** (`opencode.json` or `~/.config/opencode/opencode.json`):
