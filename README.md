@@ -43,12 +43,7 @@ Authentication uses a shared [service account](https://grafana.prod-eu.kubershmu
 **To request a token**, ask in the **#devops** Slack channel, or reach out directly to any of the following — they have edit access to the service account and can create a token for you:
 
 - Agrim Prasad
-- Andre Bartke
 - Chris Wu
-- Gerhard Pretorius
-- Marvin Cai
-- Minyan Gu
-- Tom Li
 
 **If you have token manager access** and need to create a token for someone:
 
