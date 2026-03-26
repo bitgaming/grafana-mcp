@@ -51,7 +51,7 @@ https://grafana-mcp.prod-eu.kubershmuber.com/sse
 **Claude Code:**
 
 ```bash
-claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse
+claude mcp add --transport sse --header "X-Grafana-API-Key: <your-token>" grafana https://grafana-mcp.prod-eu.kubershmuber.com/sse
 ```
 
 **OpenCode** (`opencode.json` or `~/.config/opencode/opencode.json`):
@@ -62,6 +62,9 @@ claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.
     "grafana": {
       "type": "remote",
       "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse",
+      "headers": {
+        "X-Grafana-API-Key": "<your-token>"
+      },
       "enabled": true
     }
   }
@@ -74,23 +77,25 @@ claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.
 {
   "mcpServers": {
     "grafana": {
-      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse"
+      "url": "https://grafana-mcp.prod-eu.kubershmuber.com/sse",
+      "headers": {
+        "X-Grafana-API-Key": "<your-token>"
+      }
     }
   }
 }
 ```
 
-## Grafana service account token
+## Grafana token (per user)
 
-The MCP server authenticates to Grafana using a service account token. Each deployer/environment should have its own token with **Viewer** role.
+Each user authenticates with their own Grafana service account token, passed via the `X-Grafana-API-Key` request header. The server reads this header on every request and forwards it to Grafana, so access is controlled per user — no shared credentials.
+
+To generate your token:
 
 1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana
-2. Click **Add service account**
-3. Set a name (e.g. `grafana-mcp-prod`) and role **Viewer**, then click **Create**
-4. On the service account page, click **Add service account token**
-5. Set an expiry if desired, then click **Generate token** and copy it immediately
-
-The token is passed to the server as `GRAFANA_SERVICE_ACCOUNT_TOKEN` (KMS-encrypted at deploy time — see [Configuration](#configuration) below).
+2. Click **Add service account**, set a name and role **Viewer**, then click **Create**
+3. On the service account page, click **Add service account token**
+4. Set an expiry if desired, click **Generate token**, and copy it immediately
 
 ## Deployment
 
@@ -112,4 +117,3 @@ europe-docker.pkg.dev/sports-dev-experiments/eu/mcp/grafana
 |---|---|
 | `GRAFANA_URL` | `http://grafana.monitoring.svc.cluster.local` |
 | `ENABLED_TOOLS` | `loki,datasource,sift` |
-| `GRAFANA_SERVICE_ACCOUNT_TOKEN` | KMS-encrypted, injected at deploy time |
