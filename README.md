@@ -33,7 +33,7 @@ All tokens live under the shared **MCP Client Service Account** — one token pe
 
 1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana and open the **MCP Client Service Account**
 2. Click **Add service account token**
-3. Set a name (e.g. your name), set an expiry if desired, click **Generate token**, and copy it immediately
+3. Set a name (e.g. your name), set an expiration date no longer than 1 year for security, click **Generate token**, and copy it immediately
 
 ## Connecting
 
