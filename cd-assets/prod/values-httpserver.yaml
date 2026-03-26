@@ -29,7 +29,6 @@ autoscaling:
 service:
   type: ClusterIP
   annotations:
-    cloud.google.com/backend-config: '{"default": "cloud-armor-backendconfig-monitoring"}'
     cloud.google.com/neg: '{"ingress": true}'
   ports:
     - port: 80
