@@ -80,6 +80,18 @@ claude mcp add --transport sse grafana https://grafana-mcp.prod-eu.kubershmuber.
 }
 ```
 
+## Grafana service account token
+
+The MCP server authenticates to Grafana using a service account token. Each deployer/environment should have its own token with **Viewer** role.
+
+1. Go to [Service Accounts](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts) in Grafana
+2. Click **Add service account**
+3. Set a name (e.g. `grafana-mcp-prod`) and role **Viewer**, then click **Create**
+4. On the service account page, click **Add service account token**
+5. Set an expiry if desired, then click **Generate token** and copy it immediately
+
+The token is passed to the server as `GRAFANA_SERVICE_ACCOUNT_TOKEN` (KMS-encrypted at deploy time — see [Configuration](#configuration) below).
+
 ## Deployment
 
 Deployed to prod EU via Cloud Build using the `deployment-chart` helm chart:
