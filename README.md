@@ -36,6 +36,27 @@ graph LR
 
 All other traffic is blocked with a `403` at the Cloud Armor layer, before reaching GKE.
 
+## Grafana token (per user)
+
+Authentication uses a single shared [service account](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts/39) (`grafana-mcp`), with one named token created per team member for audit tracking.
+
+**To request a token**, ask in the **#devops** Slack channel, or reach out directly to anyone who has token manager access:
+
+- agrimprasad
+- andrebartke
+- chris.w@chaostheory.hk
+- gerhardpretorius
+- marvincai
+- minyan.gu@bitgamelabs.com
+- tom.l@chaostheory.hk
+
+**If you have token manager access** and need to create a token for someone:
+
+1. Go to the [grafana-mcp service account](https://grafana.prod-eu.kubershmuber.com/org/serviceaccounts/39)
+2. Click **Add service account token**
+3. Set the token name to the person's name/username for tracking
+4. Set an expiry if desired, click **Generate token**, and share it securely
+
 ## Connecting
 
 The MCP server is available via SSE at:
