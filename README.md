@@ -1,4 +1,4 @@
-# grafana-mcp
+# grafana-mcp test
 
 Runs the [Grafana MCP server](https://github.com/grafana/mcp-grafana) on the `kubershmuber-prod-eu` cluster in the `monitoring` namespace, alongside the Grafana instance.
 
