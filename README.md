@@ -6,7 +6,7 @@ The server is configured to expose the following tool categories via `ENABLED_TO
 
 | Category | Tools |
 |---|---|
-| `loki` | `query_loki_logs`, `list_loki_label_names`, `list_loki_label_values`, `query_loki_stats`, `query_loki_patterns` |
+| `loki` | `query_loki_logs`, `list_loki_label_names`, `list_loki_label_values`, `query_loki_stats`, `query_loki_patterns` |d
 | `datasource` | `list_datasources`, `get_datasource` |
 | `sift` | `list_sift_investigations`, `get_sift_investigation`, `get_sift_analysis`, `find_error_pattern_logs`, `find_slow_requests` |
 
